@@ -1,0 +1,13 @@
+Папка Game создана  - true
+Папка res создана  - true
+Папка src создана  - true
+Папка savegame создана  - true
+Папка temp создана  - true
+Папка main создана  - true
+Папка test создана  - true
+Папка drawables создана  - true
+Папка vectors создана  - true
+Папка icons создана  - true
+Файл Main.java создан  - true
+Файл Utils.java создан  - true
+Файл temp.txt создан  - true

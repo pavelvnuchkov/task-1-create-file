@@ -1,56 +1,60 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
+    static StringBuilder builder = new StringBuilder();
     public static void main(String[] args) {
-        StringBuilder builder = new StringBuilder();
-        //------1--------
-        File dirGame = new File("Game");
-        builder.append("Папка " + dirGame.getName() + " создана  - " + dirGame.mkdir() + "\n");
-        File dirSrc = new File(dirGame, "src");
-        builder.append("Папка " + dirSrc.getName() + " создана  - " + dirSrc.mkdir() + "\n");
-        File dirRes = new File(dirGame, "res");
-        builder.append("Папка " + dirRes.getName() + " создана  - " + dirRes.mkdir() + "\n");
-        File dirSaveGame = new File(dirGame, "savegame");
-        builder.append("Папка " + dirSaveGame.getName() + " создана  - " + dirSaveGame.mkdir() + "\n");
-        File dirTemp = new File(dirGame, "temp");
-        builder.append("Папка " + dirTemp.getName() + " создана  - " + dirTemp.mkdir() + "\n");
-        //-------2--------
-        File dirMain = new File(dirSrc, "main");
-        builder.append("Папка " + dirMain.getName() + " создана  - " + dirMain.mkdir() + "\n");
-        File dirTest = new File(dirSrc, "test");
-        builder.append("Папка " + dirTest.getName() + " создана  - " + dirTest.mkdir() + "\n");
-        //-------3------
-        File fileMain = new File(dirMain, "Main.java");
-        File fileUtils = new File(dirMain, "Utils.java");
-        try {
-            builder.append("Файл " + fileMain.getName() + " создан  - " + fileMain.createNewFile() + "\n");
-            builder.append("Файл " + fileUtils.getName() + " создан  - " + fileUtils.createNewFile() + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        //-------4------
-        File dirDrawables = new File(dirRes, "drawables");
-        builder.append("Папка " + dirDrawables.getName() + " создана  - " + dirDrawables.mkdir() + "\n");
-        File dirVectors = new File(dirRes, "vectors");
-        builder.append("Папка " + dirVectors.getName() + " создана  - " + dirVectors.mkdir() + "\n");
-        File dirIcons = new File(dirRes, "icons");
-        builder.append("Папка " + dirIcons.getName() + " создана  - " + dirIcons.mkdir() + "\n");
-        //-------5------
-        File fileTemp = new File(dirTemp, "temp.txt");
-        try {
-            builder.append("Файл " + fileTemp.getName() + " создан  - " + fileTemp.createNewFile() + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<String> listPathDir = new ArrayList<>();
+        listPathDir.add("Game");
+        listPathDir.add("Game/res");
+        listPathDir.add("Game/src");
+        listPathDir.add("Game/savegame");
+        listPathDir.add("Game/temp");
+        listPathDir.add("Game/src/main");
+        listPathDir.add("Game/src/test");
+        listPathDir.add("Game/res/drawables");
+        listPathDir.add("Game/res/vectors");
+        listPathDir.add("Game/res/icons");
 
-        try (FileWriter writer = new FileWriter(fileTemp)) {
-            writer.write(String.valueOf(builder));
+        List<String> listPathFile = new ArrayList<>();
+        listPathFile.add("Game/src/main/Main.java");
+        listPathFile.add("Game/src/main/Utils.java");
+        listPathFile.add("Game/temp/temp.txt");
+
+        for (String path : listPathDir) {
+            addDirectory(path);
+        }
+        for (String path : listPathFile) {
+            addFile(path);
+        }
+        addLogFile("Game/temp/temp.txt");
+        System.out.println(builder);
+    }
+
+    public static void addDirectory(String pathDir) {
+        File newDir = new File(pathDir);
+        builder.append("Папка " + newDir.getName() + " создана  - " + newDir.mkdir() + "\n");
+    }
+
+    public static void addFile(String pathDir) {
+        File newFile = new File(pathDir);
+        try {
+            builder.append("Файл " + newFile.getName() + " создан  - " + newFile.createNewFile() + "\n");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addLogFile(String path) {
+        try(FileWriter writer = new FileWriter(path)) {
+            writer.write(builder.toString());
             writer.flush();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
-
     }
+
 }
